@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OMS.Domain.Base.Mapping\OMS.Domain.Base.Mapping.csproj" />
+    <ProjectReference Include="..\OMS.Domain.User.Dto\OMS.Domain.User.Dto.csproj" />
+    <ProjectReference Include="..\OMS.Domain.User.Entity\OMS.Domain.User.Entity.csproj" />
+    <ProjectReference Include="..\OMS.Domain.User.Model\OMS.Domain.User.Model.csproj" />
+  </ItemGroup>
+
+</Project>
