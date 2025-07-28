@@ -13,8 +13,13 @@ namespace User.Api.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IHttpContextAccessor contextAccessor, ILogger<BaseController> logger, IUserService userService)
-            : base(contextAccessor, logger)
+        //public UserController(IHttpContextAccessor contextAccessor, ILogger<BaseController> logger, IUserService userService)
+        //    : base(contextAccessor, logger)
+        //{
+        //    _userService = userService;
+        //}
+
+        public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _userService = userService;
         }

@@ -7,14 +7,14 @@ namespace OMS.Common.Api
 {
     public abstract class BaseController : ControllerBase
     {
-        protected readonly UserContext _userContext;
+        // protected readonly UserContext _userContext;
         protected readonly ILogger<BaseController> _logger;
 
-        public BaseController(IHttpContextAccessor contextAccessor, ILogger<BaseController> logger)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _userContext = GetUserContext(contextAccessor.HttpContext);
-        }
+        //public BaseController(ILogger<BaseController> logger)
+        //{
+        //    _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        //    // _userContext = GetUserContext(contextAccessor.HttpContext);
+        //}
 
         private UserContext GetUserContext(HttpContext context)
         {

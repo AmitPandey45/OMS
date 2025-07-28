@@ -1,7 +1,4 @@
-﻿using OMS.Common.Api.Helpers;
-using System.Net;
-
-namespace OMS.Common.Api.Middlewares
+﻿namespace OMS.Common.Api.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
@@ -14,34 +11,25 @@ namespace OMS.Common.Api.Middlewares
             _logger = logger;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {
+                // Call the next middleware in the pipeline
                 await _next(context);
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                // Log the exception with context (e.g., unique request ID, etc.)
+                _logger.LogError(ex, "An unhandled exception occurred while processing the request.");
+
+                // Optionally, set the response status code for exceptions
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+                // You can also return a custom error message in the response
+                await context.Response.WriteAsync("An unexpected error occurred. Please try again later.");
             }
         }
-
-        private Task HandleExceptionAsync(HttpContext context, Exception ex)
-        {
-            // Log the exception
-            _logger.LogError(ex, "An unexpected error occurred");
-
-            // Create a standardized error response
-            var apiResponse = ResponseHelper.CreateErrorResponse(
-                "ErrorHandlingMiddleware.HandleExceptionAsync",
-                "An unexpected error occurred. Please try again later."
-            );
-
-            // Set response details
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-            return context.Response.WriteAsync(apiResponse);
-        }
     }
+
 }

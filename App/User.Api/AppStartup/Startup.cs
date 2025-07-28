@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Core.Infrastructure.Logging.Microsoft;
 using Microsoft.OpenApi.Models;
 using OMS.Common.Api.Filters;
+using OMS.Common.Api.Logging;
 using OMS.Common.Api.Middlewares;
-using OMS.Common.Api.ResponseFactories;
 using OMS.Domain.User.Mapping;
 using User.Api.Extensions;
 
@@ -80,6 +79,15 @@ namespace User.Api.AppStartup
                 c.DocumentFilter<LowercasePathsFilter>(); // Register the lowercase path filter
             });
 
+            // Register HttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
+
+            // Register ILogContext
+            builder.Services.AddScoped<Core.Framework.Logging.ILogContext, HttpContextLogContext>();
+
+            // Configure Logging
+            builder.Host.ConfigureApplicationLogging();
+
             return services;
         }
 
@@ -87,7 +95,7 @@ namespace User.Api.AppStartup
         {
             WebApplication app = builder.Build();
 
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            //app.UseMiddleware<ErrorHandlingMiddleware1>();
             //app.UseMiddleware<CustomValidationMiddleware>();
             if (app.Environment.IsDevelopment())
             {
@@ -97,7 +105,10 @@ namespace User.Api.AppStartup
 
             app.UseHttpsRedirection();
 
+            app.UseMiddleware<ResponseBodyCaptureMiddleware>();
             app.UseMiddleware<LowercaseRoutingMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<RequestResponseMiddleware>();
 
             app.UseRouting();
             app.UseAuthorization();

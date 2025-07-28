@@ -27,7 +27,7 @@ namespace OMS.Common.Security
         {
             var saltBytes = Encoding.UTF8.GetBytes(salt);
 
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, Iterations))
+            using (var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, Iterations, HashAlgorithmName.SHA3_512))
             {
                 return pbkdf2.GetBytes(HashedLength);
             }

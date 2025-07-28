@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core.Infrastructure.Logging.Microsoft\Core.Infrastructure.Logging.Microsoft.csproj" />
+    <ProjectReference Include="..\..\Core\Framework\Core.Framework.Logging\Core.Framework.Logging.csproj" />
     <ProjectReference Include="..\OMS.Common\OMS.Common.csproj" />
   </ItemGroup>
 
